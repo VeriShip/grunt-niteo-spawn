@@ -1,0 +1,21 @@
+{
+  "name": "grunt-niteo-spawn",
+  "version": "0.0.1",
+  "description": "A promised based spawn wrapper for grunt.",
+  "main": "tasks/spawn.js",
+  "scripts": {
+    "test": "grunt"
+  },
+  "author": "NiteoSoftware",
+  "license": "MIT",
+  "devDependencies": {
+    "grunt-cli": "^0.1.13",
+    "grunt-contrib-coffee": "^0.12.0",
+    "grunt-mocha-test": "^0.12.7",
+    "should": "^4.6.3"
+  },
+  "dependencies": {
+    "string": "^3.0.0",
+    "q": "^1.1.2"
+  }
+}
