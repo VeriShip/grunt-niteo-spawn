@@ -6,6 +6,10 @@
   "scripts": {
     "test": "grunt"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NiteoSoftware/grunt-niteo-spawn.git"
+  },
   "author": "NiteoSoftware",
   "license": "MIT",
   "devDependencies": {
