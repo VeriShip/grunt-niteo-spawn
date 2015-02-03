@@ -15,7 +15,7 @@ npm install grunt-niteo-spawn --save-dev
 Usage
 -----
 
-The `options` that are sent the the underlying `grunt.util.spawn` method is the `this.data` property accessible within the [MultiTask](http://gruntjs.com/creating-tasks#multi-tasks).  So, the configuration of task follows that same structure.
+The `options` object that is sent to the underlying `grunt.util.spawn` method is the `this.data` property accessible within the [MultiTask](http://gruntjs.com/creating-tasks#multi-tasks).  So, the configuration of task follows that same structure.
 
 ```
 
@@ -32,7 +32,7 @@ grunt.initConfig = {
 
 ```
 
-If you're task need to process the data passed on resolve, revoke, or notify of the promise, then you can specify functions within the configuration.
+If you're task needs to process the data passed on resolve, revoke, or notify of the promise, then you can specify functions within the configuration.
 
 ```
 
@@ -76,12 +76,12 @@ grunt.initConfig = {
 
 ```
 
-Be aware that the `stdout` and `stderr` are already being sent to the console for logging when `--verbose` is specified.  That same data is being sent to the notfy promise event as well.
+Be aware that the `stdout` and `stderr` are already being sent to the console for logging when `--verbose` is specified.  That same data is being sent to the notify promise event as well.
 
 Advanced Usage
 --------------
 
-The `niteoSpawn` method is exposed as the `grunt.niteo.spawn` method on the grunt object.  You can use it freely within your specialized grunt tasks as well. 
+The `niteoSpawn` task is exposed as the `grunt.niteo.spawn` method on the grunt object.  You can use it freely within your specialized grunt tasks as well. 
 
 ```
 grunt.loadNpmTask('grunt-niteo-spawn')
