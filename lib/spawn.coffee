@@ -1,5 +1,6 @@
 Q = require 'q'
 S = require 'string'
+colors = require 'colors'
 
 module.exports = (grunt)->
 
