@@ -76,7 +76,21 @@ grunt.initConfig = {
 
 ```
 
-Be aware that the `stdout` and `stderr` are already being sent to the console for logging when `--verbose` is specified.  That same data is being sent to the notify promise event as well.
+The `stdout` and `stderr` output from the spawned process is supressed by default.  If you supply the `--verbose` flag you will see it.  If you would like to see the output at all times, add a `silent: false` to the options for the target.  `silent` is `true` by default.
+
+```
+grunt.initConfig = {
+	niteoSpawn: {
+		default: {
+			cmd: 'echo',
+			args: [
+				'hello world!'
+			],
+			silent: false
+		}
+	}
+}
+```
 
 Advanced Usage
 --------------
