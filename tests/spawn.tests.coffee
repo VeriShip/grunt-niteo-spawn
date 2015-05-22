@@ -1,5 +1,6 @@
 Q = require 'q'
 should = require 'should'
+colors = require 'colors'
 
 describe 'niteo.spawn', ->
 
@@ -8,6 +9,8 @@ describe 'niteo.spawn', ->
 	beforeEach ->
 		grunt = { }
 		grunt.registerMultiTask = ->
+		grunt.verbose = { }
+		grunt.verbose.writeln = ->
 		require('../spawn.js')(grunt)
 
 	it 'should return an error if options is undefined.', (done) ->
@@ -44,9 +47,8 @@ describe 'niteo.spawn', ->
 
 		grunt.niteo.spawn expectedOptions
 			.done (data) ->
-
-					actualOptions.should.eql expectedOptions
-					done()
+				actualOptions.should.eql expectedOptions
+				done()
 
 	it 'should subscribe to stdout.on.', (done) ->
 
@@ -110,6 +112,78 @@ describe 'niteo.spawn', ->
 		grunt.niteo.spawn { }
 			.catch (err) ->
 				done()
+
+	it 'should write out the full command.', (done) ->
+		
+		writtenValue = null
+
+		grunt.util = 
+			spawn: (option, callback) =>
+				actualOptions = option
+				result = 	
+					stdout:
+						on: ->
+					stderr: 
+						on: ->
+
+				callback(null, { })
+
+				return result
+		grunt.verbose = { }
+		grunt.verbose.writeln = (value) ->
+			writtenValue = value
+
+		grunt.niteo.spawn(
+			cmd: 'someCommand',
+			args: [
+				'arg1',
+				'arg2'
+			])
+			.done ->
+				writtenValue.should.equal colors.gray('Command: ') + colors.green('someCommand arg1 arg2')
+				done()
+
+	it 'stdout should output gray', (done) ->
+
+		actualFunction = null
+
+		grunt.util = 
+			spawn: (option, callback) =>
+				return {
+					stdout:
+						on: (e, f) =>
+							actualFunction = f
+					stderr: 
+						on: -> 
+				}
+
+		grunt.niteo.spawn({ })
+			.progress (data) =>
+				data.should.equal "Some Message".gray
+				done()
+
+		actualFunction("Some Message")
+
+	it 'stderr should output red', (done) ->
+
+		actualFunction = null
+
+		grunt.util = 
+			spawn: (option, callback) =>
+				return {
+					stdout:
+						on: ->
+					stderr: 
+						on: (e, f) =>
+							actualFunction = f 
+				}
+
+		grunt.niteo.spawn({ })
+			.progress (data) =>
+				data.should.equal "Some Message".red
+				done()
+
+		actualFunction("Some Message")
 
 describe 'niteoSpawn', ->
 
@@ -225,3 +299,46 @@ describe 'niteoSpawn', ->
 		task.call(task)
 
 		deferred.notify(expectedData)
+
+	it 'should call grunt.verbose.writeln when there is a message and silent is not defined.', (done) ->
+
+		defered = Q.defer()
+		grunt.niteo.spawn = ->		
+			defered.promise
+
+		grunt.verbose.writeln = ->
+			done()
+
+		task.call(task)
+
+		defered.notify("Test")
+
+	it 'should call grunt.verbose.writeln when there is a message and silent is defined as true.', (done) ->
+
+		defered = Q.defer()
+		grunt.niteo.spawn = ->		
+			defered.promise
+
+		grunt.verbose.writeln = ->
+			done()
+
+		task.data.silent = true
+
+		task.call(task)
+
+		defered.notify("Test")
+
+	it 'should call grunt.log.writeln when there is a message and silent is defined as false.', (done) ->
+
+		defered = Q.defer()
+		grunt.niteo.spawn = ->		
+			defered.promise
+
+		grunt.log.writeln = ->
+			done()
+
+		task.data.silent = false
+
+		task.call(task)
+
+		defered.notify("Test")

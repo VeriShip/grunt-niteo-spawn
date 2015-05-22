@@ -15,6 +15,8 @@ module.exports = (grunt)->
 			deferred = Q.defer()
 
 			try
+				grunt.verbose.writeln colors.gray("Command: ") + colors.green("#{options.cmd} #{if options.args then options.args.join(' ') else ''}")
+				
 				child = grunt.util.spawn options, (error, result, code) ->
 
 					if error?
@@ -23,10 +25,10 @@ module.exports = (grunt)->
 						deferred.resolve result
 
 				child.stdout.on 'data', (buf) ->
-					deferred.notify String(buf)
+					deferred.notify String(buf).gray
 
 				child.stderr.on 'data', (buf) ->
-					deferred.notify String(buf)
+					deferred.notify String(buf).red
 
 			catch e
 				deferred.reject e
@@ -36,6 +38,7 @@ module.exports = (grunt)->
 	grunt.registerMultiTask 'niteoSpawn', ->
 
 		done = @async()
+		@data.silent = if @data.silent? then @data.silent else true
 		grunt.niteo.spawn(@data)	
 			.done (result) =>
 					if @data.success?
@@ -50,4 +53,5 @@ module.exports = (grunt)->
 				, (notify) =>
 					if @data.notify?
 						@data.notify(notify)
-					grunt.verbose.writeln S(notify).trimRight().s['gray']
+					msg = S(notify).trimRight().s
+					if @data.silent then grunt.verbose.writeln msg else grunt.log.writeln msg
