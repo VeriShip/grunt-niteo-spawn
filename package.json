@@ -1,6 +1,6 @@
 {
   "name": "grunt-niteo-spawn",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A promised based spawn wrapper for grunt.",
   "main": "tasks/spawn.js",
   "scripts": {
