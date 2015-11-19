@@ -1,6 +1,6 @@
 grunt-niteo-spawn
 ========
-[![Build Status](https://travis-ci.org/NiteoSoftware/grunt-niteo-spawn.svg)](https://travis-ci.org/NiteoSoftware/grunt-niteo-spawn)
+[![Build Status](https://travis-ci.org/VeriShip/grunt-niteo-spawn.svg?branch=master)](https://travis-ci.org/VeriShip/grunt-niteo-spawn.svg?branch=master)
 [![Build status](https://ci.appveyor.com/api/projects/status/426hcw7dnonhkgrg?svg=true)](https://ci.appveyor.com/project/NiteoBuildBot/grunt-niteo-spawn)
 
 A wrapper for [`grunt.util.spawn`](http://gruntjs.com/api/grunt.util#grunt.util.spawn) that is promised based.  It is worth noting that the output from the executable call is only visible if you specify the [`--verbose`](http://gruntjs.com/using-the-cli#verbose-v) flag from the command line.
