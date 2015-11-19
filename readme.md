@@ -92,6 +92,22 @@ grunt.initConfig = {
 }
 ```
 
+If you *NEVER* want the output to be visible on the screen (because it may reveal a password in a CI server) then you can use the `sensitive` flag.  If it is undefined or `false`, then nothing is changed.  However, if it is set to `true` then the output is suppressed competely.
+
+```
+grunt.initConfig = {
+	niteoSpawn: {
+		default: {
+			cmd: 'echo',
+			args: [
+				'<my password>'
+			],
+			sensitive: true
+		}
+	}
+}
+```
+
 Advanced Usage
 --------------
 
