@@ -13,9 +13,9 @@ environment:
     - nodejs_version: "4.0.0"
     - nodejs_version: "5.0.0"
 
-platform:
-    - x86
-    - x64
+    platform:
+        - x86
+        - x64
 
       # Install scripts. (runs after repo cloning)
 install:
