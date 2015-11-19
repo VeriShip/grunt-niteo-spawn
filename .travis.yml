@@ -20,4 +20,5 @@ deploy:
     tags: true
     all_branches: true
     repo: VeriShip/grunt-niteo-spawn
+    node: '4.1'
 
