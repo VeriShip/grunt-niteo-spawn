@@ -24,11 +24,15 @@ module.exports = (grunt)->
 					else
 						deferred.resolve result
 
-				child.stdout.on 'data', (buf) ->
-					deferred.notify String(buf).gray
+				if !options.sensitive?
+					options.sensitive=false
 
-				child.stderr.on 'data', (buf) ->
-					deferred.notify String(buf).red
+				if !options.sensitive
+					child.stdout.on 'data', (buf) ->
+						deferred.notify String(buf).gray
+
+					child.stderr.on 'data', (buf) ->
+						deferred.notify String(buf).red
 
 			catch e
 				deferred.reject e
@@ -39,7 +43,7 @@ module.exports = (grunt)->
 
 		done = @async()
 		@data.silent = if @data.silent? then @data.silent else true
-		grunt.niteo.spawn(@data)	
+		grunt.niteo.spawn(@data)
 			.done (result) =>
 					if @data.success?
 						@data.success(result)

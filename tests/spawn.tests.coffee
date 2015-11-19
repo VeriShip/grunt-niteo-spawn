@@ -28,20 +28,20 @@ describe 'niteo.spawn', ->
 	it 'should call grunt.util.spawn passing the options object.', (done) ->
 
 		actualOptions = null
-		grunt.util = 
+		grunt.util =
 			spawn: (option, callback) =>
 				actualOptions = option
-				result = 	
+				result =
 					stdout:
 						on: () ->
-					stderr: 
+					stderr:
 						on: () ->
 
 				callback(null, { })
 
 				return result
 
-		expectedOptions = 
+		expectedOptions =
 			SomeOptions: 'dummy'
 			SomeMoreOptions: true
 
@@ -50,20 +50,20 @@ describe 'niteo.spawn', ->
 				actualOptions.should.eql expectedOptions
 				done()
 
-	it 'should subscribe to stdout.on.', (done) ->
+	it 'should subscribe to stdout.on. when sensitive is undefined', (done) ->
 
 		actualEvent = null
 		actualFunction = null
 
-		grunt.util = 
+		grunt.util =
 			spawn: (option, callback) =>
 				actualOptions = option
-				result = 	
+				result =
 					stdout:
 						on: (e, f) ->
 							actualEvent = e
 							actualFunction = f
-					stderr: 
+					stderr:
 						on: () ->
 
 				callback(null, { })
@@ -77,7 +77,61 @@ describe 'niteo.spawn', ->
 				actualFunction.should.be.ok
 				done()
 
-	it 'should subscribe to stderr.on', (done) ->
+	it 'should subscribe to stdout.on. when sensitive false', (done) ->
+
+		actualEvent = null
+		actualFunction = null
+
+		grunt.util =
+			spawn: (option, callback) =>
+				actualOptions = option
+				result =
+					stdout:
+						on: (e, f) ->
+							actualEvent = e
+							actualFunction = f
+					stderr:
+						on: () ->
+
+				callback(null, { })
+
+				return result
+
+
+		grunt.niteo.spawn({sensitive: false})
+			.done (data) =>
+				actualEvent.should.equal 'data'
+				actualFunction.should.be.ok
+				done()
+
+	it 'should not subscribe to stdout.on. when sensitive true', (done) ->
+
+		actualEvent = null
+		actualFunction = null
+		
+		grunt.util =
+			spawn: (option, callback) =>
+				actualOptions = option
+				result =
+					stdout:
+						on: (e, f) ->
+							actualEvent = e
+							actualFunction = f
+					stderr:
+						on: () ->
+
+				callback(null, { })
+
+				return result
+
+
+		grunt.niteo.spawn({ sensitive: true })
+			.done (data) =>
+				should.equal(actualEvent, null)
+				should.equal(actualFunction, null)
+				done()
+
+	it 'should subscribe to stderr.on if sensitive is undefined', (done) ->
 
 		actualEvent = null
 		actualFunction = null
@@ -102,6 +156,60 @@ describe 'niteo.spawn', ->
 			.done (data) =>
 				actualEvent.should.equal 'data'
 				actualFunction.should.be.ok
+				done()
+	
+	it 'should subscribe to stderr.on if sensitive is false', (done) ->
+
+		actualEvent = null
+		actualFunction = null
+
+		grunt.util =
+			spawn: (option, callback) =>
+				actualOptions = option
+				result =
+					stdout:
+						on: ->
+					stderr:
+						on: (e, f) ->
+							actualEvent = e
+							actualFunction = f
+
+				callback(null, { })
+
+				return result
+
+
+		grunt.niteo.spawn({ sensitive: false })
+			.done (data) =>
+				actualEvent.should.equal 'data'
+				actualFunction.should.be.ok
+				done()
+	
+	it 'should not subscribe to stderr.on if sensitive is true', (done) ->
+
+		actualEvent = null
+		actualFunction = null
+
+		grunt.util =
+			spawn: (option, callback) =>
+				actualOptions = option
+				result =
+					stdout:
+						on: ->
+					stderr:
+						on: (e, f) ->
+							actualEvent = e
+							actualFunction = f
+
+				callback(null, { })
+
+				return result
+
+
+		grunt.niteo.spawn({ sensitive: true })
+			.done (data) =>
+				should.equal(actualEvent, null)
+				should.equal(actualFunction, null)
 				done()
 
 	it 'should never throw an exception.', (done) ->
@@ -331,7 +439,7 @@ describe 'niteoSpawn', ->
 	it 'should call grunt.log.writeln when there is a message and silent is defined as false.', (done) ->
 
 		defered = Q.defer()
-		grunt.niteo.spawn = ->		
+		grunt.niteo.spawn = ->
 			defered.promise
 
 		grunt.log.writeln = ->
