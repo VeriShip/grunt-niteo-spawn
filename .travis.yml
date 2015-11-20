@@ -15,10 +15,9 @@ deploy:
   email: npm@niteoholdings.com
   skip_cleanup: true
   api_key:
-    secure: "Xrtr/03puOY9Kd1pYpS8fPcnNPDJ3BqQ+sn+seq9WMz/V55+bHEWDmPrZp3Mi3UHnlXLccsJnRD+AZpY4bN1FBeDHL184Zhu3PgKFrvzDk4Fh/NDo8yexArN543EG4nvM1kCE921WP+GGLMfUOAb/ULyRnTaLlCvbcv2oAJcXsY="
+    secure: g+bf9U/quLC9RTG6C6oaArRI/jyOz+HP1ZZQ6gMaQLeV35l2xeD9rFiXNJ3yhsWLGrJCDnpHxBcm/OdDlzXd18oP+HkAEOtbQPdqmKeVtnxn7dbIRv8TrURZpilFY0GhdJCYVQDI9d/OT+bp281SBnrZyAkAs2HD5RMkUxCA6ys=
   on:
-    tags: true
     all_branches: true
+    tags: true
     repo: VeriShip/grunt-niteo-spawn
     node: '4.1'
-

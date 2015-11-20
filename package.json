@@ -8,9 +8,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/NiteoSoftware/grunt-niteo-spawn.git"
+    "url": "https://github.com/VeriShip/grunt-niteo-spawn.git"
   },
-  "author": "NiteoSoftware",
+  "author": "VeriShip",
   "license": "MIT",
   "devDependencies": {
     "grunt": "^0.4.5",
