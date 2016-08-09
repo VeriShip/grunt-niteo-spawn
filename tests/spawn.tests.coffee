@@ -24,7 +24,7 @@ describe 'niteo.spawn', ->
 		grunt.niteo.spawn(null)
 			.catch (err) ->
 				done()
-				
+
 	it 'should call grunt.util.spawn passing the options object.', (done) ->
 
 		actualOptions = null
@@ -108,7 +108,7 @@ describe 'niteo.spawn', ->
 
 		actualEvent = null
 		actualFunction = null
-		
+
 		grunt.util =
 			spawn: (option, callback) =>
 				actualOptions = option
@@ -136,13 +136,13 @@ describe 'niteo.spawn', ->
 		actualEvent = null
 		actualFunction = null
 
-		grunt.util = 
+		grunt.util =
 			spawn: (option, callback) =>
 				actualOptions = option
-				result = 	
+				result =
 					stdout:
 						on: ->
-					stderr: 
+					stderr:
 						on: (e, f) ->
 							actualEvent = e
 							actualFunction = f
@@ -157,7 +157,7 @@ describe 'niteo.spawn', ->
 				actualEvent.should.equal 'data'
 				actualFunction.should.be.ok
 				done()
-	
+
 	it 'should subscribe to stderr.on if sensitive is false', (done) ->
 
 		actualEvent = null
@@ -184,7 +184,7 @@ describe 'niteo.spawn', ->
 				actualEvent.should.equal 'data'
 				actualFunction.should.be.ok
 				done()
-	
+
 	it 'should not subscribe to stderr.on if sensitive is true', (done) ->
 
 		actualEvent = null
@@ -213,7 +213,7 @@ describe 'niteo.spawn', ->
 				done()
 
 	it 'should never throw an exception.', (done) ->
-		grunt.util = 
+		grunt.util =
 			spawn: (option, callback) =>
 				throw 'Some Exception...'
 
@@ -222,16 +222,16 @@ describe 'niteo.spawn', ->
 				done()
 
 	it 'should write out the full command.', (done) ->
-		
+
 		writtenValue = null
 
-		grunt.util = 
+		grunt.util =
 			spawn: (option, callback) =>
 				actualOptions = option
-				result = 	
+				result =
 					stdout:
 						on: ->
-					stderr: 
+					stderr:
 						on: ->
 
 				callback(null, { })
@@ -255,14 +255,14 @@ describe 'niteo.spawn', ->
 
 		actualFunction = null
 
-		grunt.util = 
+		grunt.util =
 			spawn: (option, callback) =>
 				return {
 					stdout:
 						on: (e, f) =>
 							actualFunction = f
-					stderr: 
-						on: -> 
+					stderr:
+						on: ->
 				}
 
 		grunt.niteo.spawn({ })
@@ -276,14 +276,14 @@ describe 'niteo.spawn', ->
 
 		actualFunction = null
 
-		grunt.util = 
+		grunt.util =
 			spawn: (option, callback) =>
 				return {
 					stdout:
 						on: ->
-					stderr: 
+					stderr:
 						on: (e, f) =>
-							actualFunction = f 
+							actualFunction = f
 				}
 
 		grunt.niteo.spawn({ })
@@ -303,16 +303,16 @@ describe 'niteoSpawn', ->
 		grunt = { }
 		grunt.registerMultiTask = (name, f) ->
 			task = f
-		grunt.util = 
+		grunt.util =
 			spawn: ->
 				Q(true)
-		grunt.log = 
+		grunt.log =
 			writeln: ->
 			ok: ->
-		grunt.verbose = 
+		grunt.verbose =
 			writeln: ->
 			ok: ->
-		grunt.fail = 
+		grunt.fail =
 			fatal: ->
 		require('../spawn.js')(grunt)
 
@@ -332,7 +332,7 @@ describe 'niteoSpawn', ->
 			actualData = options
 			Q(true)
 
-		task.data = 
+		task.data =
 			SomeProperty: "SomePropertyValue"
 			BooleanValue: true
 
@@ -341,11 +341,11 @@ describe 'niteoSpawn', ->
 	it 'should call @data.success with passed data.', (done) ->
 
 		actualData = null
-		expectedData = 
+		expectedData =
 			SomeProperty: "Properties YIPPEEEE"
 			BooleanPhsych: ->
 
-		grunt.niteo.spawn = ->		
+		grunt.niteo.spawn = ->
 			Q(expectedData)
 
 		task.data.success = (passedData) ->
@@ -360,11 +360,11 @@ describe 'niteoSpawn', ->
 	it 'should call @data.failure with passed error.', (done) ->
 
 		actualData = null
-		expectedData = 
+		expectedData =
 			SomeProperty: "Properties YIPPEEEE"
 			BooleanPhsych: ->
 
-		grunt.niteo.spawn = ->		
+		grunt.niteo.spawn = ->
 			Q.reject(expectedData)
 
 		task.data.failure = (passedData) ->
@@ -378,7 +378,7 @@ describe 'niteoSpawn', ->
 
 	it 'should call grunt.fail.fatal when there is an error.', (done) ->
 
-		grunt.niteo.spawn = ->		
+		grunt.niteo.spawn = ->
 			Q.reject({ })
 
 		grunt.fail.fatal = ->
@@ -393,12 +393,12 @@ describe 'niteoSpawn', ->
 	it 'should call @data.notify with passed msg.', (done) ->
 
 		deferred = Q.defer()
-		expectedData = 
+		expectedData =
 			SomeProperty: "Properties YIPPEEEE"
 			BooleanPhsych: ->
 
-		grunt.niteo.spawn = ->		
-			deferred.promise	
+		grunt.niteo.spawn = ->
+			deferred.promise
 
 		task.data.notify = (passedData) ->
 			passedData.should.eql expectedData
@@ -408,26 +408,26 @@ describe 'niteoSpawn', ->
 
 		deferred.notify(expectedData)
 
-	it 'should call grunt.verbose.writeln when there is a message and silent is not defined.', (done) ->
+	it 'should call grunt.verbose.write when there is a message and silent is not defined.', (done) ->
 
 		defered = Q.defer()
-		grunt.niteo.spawn = ->		
+		grunt.niteo.spawn = ->
 			defered.promise
 
-		grunt.verbose.writeln = ->
+		grunt.verbose.write = ->
 			done()
 
 		task.call(task)
 
 		defered.notify("Test")
 
-	it 'should call grunt.verbose.writeln when there is a message and silent is defined as true.', (done) ->
+	it 'should call grunt.verbose.write when there is a message and silent is defined as true.', (done) ->
 
 		defered = Q.defer()
-		grunt.niteo.spawn = ->		
+		grunt.niteo.spawn = ->
 			defered.promise
 
-		grunt.verbose.writeln = ->
+		grunt.verbose.write = ->
 			done()
 
 		task.data.silent = true
@@ -436,13 +436,13 @@ describe 'niteoSpawn', ->
 
 		defered.notify("Test")
 
-	it 'should call grunt.log.writeln when there is a message and silent is defined as false.', (done) ->
+	it 'should call grunt.log.write when there is a message and silent is defined as false.', (done) ->
 
 		defered = Q.defer()
 		grunt.niteo.spawn = ->
 			defered.promise
 
-		grunt.log.writeln = ->
+		grunt.log.write = ->
 			done()
 
 		task.data.silent = false
