@@ -16,7 +16,7 @@ module.exports = (grunt)->
 
 			try
 				grunt.verbose.writeln colors.gray("Command: ") + colors.green("#{options.cmd} #{if options.args then options.args.join(' ') else ''}")
-				
+
 				child = grunt.util.spawn options, (error, result, code) ->
 
 					if error?
@@ -58,4 +58,4 @@ module.exports = (grunt)->
 					if @data.notify?
 						@data.notify(notify)
 					msg = S(notify).trimRight().s
-					if @data.silent then grunt.verbose.writeln msg else grunt.log.writeln msg
+					if @data.silent then grunt.verbose.write msg else grunt.log.write msg
